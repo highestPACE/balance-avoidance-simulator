@@ -8,7 +8,7 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-	Robot robot = new Robot(0.1);
+	Robot robot = new Robot(0.1, 0.1);
 	robot.setAngle(Math.PI / 180);
 	
 	double dt = 0.001;

@@ -25,7 +25,7 @@ public class SimulationPanel extends JPanel {
 	
 	double groundY = height / 2;
 	double scale = 1000;
-	int wheelRadius = 20;
+	double wheelRadius = robot.getWheelRadius();
 	
 	double wheelX = width / 2;
 	double wheelY = groundY;
@@ -37,7 +37,7 @@ public class SimulationPanel extends JPanel {
 	g2.drawLine(0, (int)groundY, width, (int)groundY);
 	
 	// Wheel
-	g2.drawOval((int) wheelX - wheelRadius, (int) wheelY - wheelRadius, 2 * wheelRadius, 2 * wheelRadius);
+	g2.drawOval((int)(wheelX - (wheelRadius * scale)), (int)(wheelY - (wheelRadius * scale)), (int)(2 * wheelRadius * scale), (int)(2 * wheelRadius * scale));
 	
 	// Body
 	g2.drawLine((int)wheelX, (int)wheelY, (int)topX, (int)topY);
