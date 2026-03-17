@@ -11,6 +11,8 @@ public class Main {
 	Robot robot = new Robot(0.1, 0.1);
 	robot.setAngle(Math.PI / 180);
 	
+	RobotController controller = new RobotController(robot);
+	
 	double dt = 0.001;
 	
 	Simulation simulation = new Simulation(dt);
@@ -26,6 +28,7 @@ public class Main {
 	frame.setVisible(true);
 	
 	while (true) {
+	    controller.control();
 	    simulation.step();
 	    panel.repaint();
 	    try {
