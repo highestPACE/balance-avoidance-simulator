@@ -15,6 +15,8 @@ public class Robot {
     }
     
     public void simulate(double dt) {
+	wheel.simulate(dt);
+	
 	double angle = getAngle();
 	double velocity = getAngularVelocity();
 	double acceleration = InvertedPendulum.calcAngularAcceleration(angle, getLength(), getWheelAngularAcceleration());
