@@ -41,5 +41,8 @@ public class SimulationPanel extends JPanel {
 	
 	// Body
 	g2.drawLine((int)wheelX, (int)wheelY, (int)topX, (int)topY);
+	
+	// Text
+	g2.drawString(String.format("Angular velocity of wheel: %.3f", robot.getWheelAngularVelocity()), 20, 20);
     }
 }
