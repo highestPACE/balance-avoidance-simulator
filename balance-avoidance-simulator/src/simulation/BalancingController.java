@@ -2,11 +2,11 @@ package simulation;
 
 import physics.Physics;
 
-public class RobotController {
+public class BalancingController {
     
     private Robot robot;
     
-    public RobotController(Robot robot) {
+    public BalancingController(Robot robot) {
 	setRobot(robot);
     }
     

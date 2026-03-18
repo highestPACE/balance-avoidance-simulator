@@ -11,7 +11,7 @@ public class Main {
 	Robot robot = new Robot(0.1, 0.1);
 	robot.setAngle(Math.PI / 180);
 	
-	RobotController controller = new RobotController(robot);
+	BalancingController controller = new BalancingController(robot);
 	
 	double dt = 0.001;
 	
