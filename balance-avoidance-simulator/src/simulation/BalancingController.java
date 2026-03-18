@@ -31,10 +31,6 @@ public class BalancingController {
 	lastControl = LocalDateTime.now();
     }
 
-    public Robot getRobot() {
-        return robot;
-    }
-
     public void setRobot(Robot robot) {
         this.robot = robot;
     }
