@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Simulation {
 
-    private double t = 0;
     private double dt = 1;
     private ArrayList<Robot> objects = new ArrayList<Robot>(); 
     
@@ -24,10 +23,6 @@ public class Simulation {
     
     public void removeObject(Robot object) {
 	objects.remove(object);
-    }
-
-    public double getT() {
-        return t;
     }
 
     public double getDt() {
