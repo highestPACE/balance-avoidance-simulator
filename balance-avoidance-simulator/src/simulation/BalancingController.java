@@ -15,6 +15,7 @@ public class BalancingController {
     }
     
     public void control() {
+	LocalDateTime now = LocalDateTime.now();
 	double length = robot.getLength();
 	double angle = robot.getAngle();
 	if (angle == 0) {
@@ -28,7 +29,7 @@ public class BalancingController {
 	    double dt = Duration.between(lastControl, LocalDateTime.now()).toMillis();
 	    robot.setWheelAngularAcceleration((Physics.G * Math.sin(angle) + (angle / (dt * length))) / Math.cos(angle));
 	}
-	lastControl = LocalDateTime.now();
+	lastControl = now;
     }
 
     public void setRobot(Robot robot) {

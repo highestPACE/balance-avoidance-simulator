@@ -32,7 +32,7 @@ public class Main {
 	    simulation.step();
 	    panel.repaint();
 	    try {
-		Thread.sleep((int)(dt * 1000));
+		Thread.sleep((int)(10));
 	    } catch (InterruptedException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
