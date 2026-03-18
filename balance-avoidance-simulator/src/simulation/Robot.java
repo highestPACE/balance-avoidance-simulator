@@ -15,19 +15,19 @@ public class Robot {
 	this.wheel = new Wheel(wheelRadius);
     }
     
-    public void simulate(double dt) {
-	wheel.simulate(dt);
-	setXPosition(getXPosition() + wheel.calcLinearVelocity() * dt);
-	
+    public void simulate(double dt) {	
 	double angle = getAngle();
 	double velocity = getAngularVelocity();
 	double acceleration = InvertedPendulum.calcAngularAcceleration(angle, getLength(), getWheelAngularAcceleration());
 	
-	velocity += acceleration * dt;
 	angle += velocity * dt;
+	velocity += acceleration * dt;
 	
-	setAngularVelocity(velocity);
+	wheel.simulate(dt);
+	
 	setAngle(angle);
+	setAngularVelocity(velocity);
+	setXPosition(getXPosition() + wheel.calcLinearVelocity() * dt);
     }
     
     public double getLength() {
@@ -47,7 +47,7 @@ public class Robot {
     }
 
     public void setWheelAngularAcceleration(double angularAcceleration) {
-        wheel.setAngularAcceleration(angularAcceleration);
+	wheel.setAngularAcceleration(angularAcceleration);
     }
 
     public double getAngle() {
