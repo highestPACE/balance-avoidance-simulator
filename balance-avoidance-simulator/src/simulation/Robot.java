@@ -8,6 +8,7 @@ public class Robot {
     private final Wheel wheel;
     private double angle = 0;
     private double angularVelocity = 0;
+    private double xPosition = 0;
     
     public Robot(double length, double wheelRadius) {
 	this.length = length;
@@ -16,6 +17,7 @@ public class Robot {
     
     public void simulate(double dt) {
 	wheel.simulate(dt);
+	setXPosition(getXPosition() + wheel.calcLinearVelocity() * dt);
 	
 	double angle = getAngle();
 	double velocity = getAngularVelocity();
@@ -62,5 +64,13 @@ public class Robot {
 
     public void setAngularVelocity(double angularVelocity) {
         this.angularVelocity = angularVelocity;
+    }
+    
+    public double getXPosition() {
+	return xPosition;
+    }
+    
+    public void setXPosition(double xPosition) {
+	this.xPosition = xPosition;
     }
 }
