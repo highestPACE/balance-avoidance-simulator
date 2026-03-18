@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
 	Robot robot = new Robot(0.1, 0.1);
-	robot.setAngle(Math.PI / 180);
+	robot.setAngle(Math.PI / 4);
 	
 	BalancingController controller = new BalancingController(robot);
 	
@@ -28,7 +28,7 @@ public class Main {
 	frame.setVisible(true);
 	
 	while (true) {
-	    controller.control();
+	    controller.control(dt); // TODO add to simulation
 	    simulation.step();
 	    panel.repaint();
 	    try {
