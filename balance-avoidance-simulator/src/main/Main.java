@@ -16,7 +16,7 @@ public class Main {
 	Simulation simulation = new Simulation(robot);
 
 	JFrame frame = new JFrame("Balancing robot");
-	SimulationPanel panel = new SimulationPanel(robot);
+	SimulationPanel panel = new SimulationPanel(simulation);
 
 	frame.add(panel);
 	frame.setSize(800, 600);
@@ -28,7 +28,7 @@ public class Main {
 	    simulation.step(dt);
 	    panel.repaint();
 	    try {
-		Thread.sleep((int) (1000));
+		Thread.sleep((int) (dt * 1000));
 	    } catch (InterruptedException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
