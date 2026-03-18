@@ -21,7 +21,7 @@ public class BalancingController {
 	    robot.setWheelAngularAcceleration(-10); // TODO maxAngularAcceleration
 	}
 	else {
-	    robot.setWheelAngularAcceleration((Physics.G * Math.sin(angle) + (angle / (dt * length))) / Math.cos(angle));
+	    robot.setWheelAngularAcceleration((Physics.G * Math.sin(angle) + (angle * length) / dt ) / Math.cos(angle));
 	}
     }
 
