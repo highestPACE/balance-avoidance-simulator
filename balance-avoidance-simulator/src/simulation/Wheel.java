@@ -11,20 +11,12 @@ public class Wheel {
 	this.radius = radius;
     }
     
-    public void simulate(double dt) {
-	angularVelocity += getAngularAcceleration() * dt;
-    }
-    
-    public double calcLinearVelocity() {
-	return getAngularVelocity() * getRadius();
-    }
-    
-    public double calcLinearAcceleration() {
-	return getAngularAcceleration() * getRadius();
-    }
-    
     public double getRadius() {
         return radius;
+    }
+    
+    public void setAngularVelocity(double angularVelocity) {
+	this.angularVelocity = angularVelocity;
     }
 
     public double getAngularVelocity() {

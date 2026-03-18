@@ -1,7 +1,5 @@
 package simulation;
 
-import physics.InvertedPendulum;
-
 public class Robot {
 
     private final double length;
@@ -15,39 +13,12 @@ public class Robot {
 	this.wheel = new Wheel(wheelRadius);
     }
     
-    public void simulate(double dt) {	
-	double angle = getAngle();
-	double velocity = getAngularVelocity();
-	double acceleration = InvertedPendulum.calcAngularAcceleration(angle, getLength(), getWheelAngularAcceleration());
-	
-	angle += velocity * dt;
-	velocity += acceleration * dt;
-	
-	wheel.simulate(dt);
-	
-	setAngle(angle);
-	setAngularVelocity(velocity);
-	setXPosition(getXPosition() + wheel.calcLinearVelocity() * dt);
-    }
-    
     public double getLength() {
         return length;
     }
     
-    public double getWheelRadius() {
-        return wheel.getRadius();
-    }
-
-    public double getWheelAngularVelocity() {
-        return wheel.getAngularVelocity();
-    }
-    
-    public double getWheelAngularAcceleration() {
-        return wheel.getAngularAcceleration();
-    }
-
-    public void setWheelAngularAcceleration(double angularAcceleration) {
-	wheel.setAngularAcceleration(angularAcceleration);
+    public Wheel getWheel() {
+	return wheel;
     }
 
     public double getAngle() {

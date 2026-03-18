@@ -4,29 +4,16 @@ import physics.Physics;
 
 public class BalancingController {
     
-    private Robot robot;
-    
-    public BalancingController(Robot robot) {
-	setRobot(robot);
-    }
-    
-    public void control(double dt) {
-	double length = robot.getLength();
-	double angle = robot.getAngle();
+    public static double controlWheelAngularAcceleration(double dt, double length, double angle) {
 	if (angle == 0) {
-	    robot.setWheelAngularAcceleration(0);
+	    return 0;
 	} else if (angle == Math.PI / 2) {
-	    robot.setWheelAngularAcceleration(10); // TODO maxAngularAcceleration
+	    return Double.POSITIVE_INFINITY;
 	} else  if (angle == (3 * Math.PI) / 2) {
-	    robot.setWheelAngularAcceleration(-10); // TODO maxAngularAcceleration
+	    return Double.NEGATIVE_INFINITY;
 	}
 	else {
-	    robot.setWheelAngularAcceleration((Physics.G * Math.sin(angle) + (angle * length) / dt ) / Math.cos(angle));
+	    return (Physics.G * Math.sin(angle) + (angle * length) / dt ) / Math.cos(angle);
 	}
     }
-
-    public void setRobot(Robot robot) {
-        this.robot = robot;
-    }
-    
 }
