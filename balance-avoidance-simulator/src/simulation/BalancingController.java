@@ -1,21 +1,16 @@
 package simulation;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-
 import physics.Physics;
 
 public class BalancingController {
     
     private Robot robot;
-    private LocalDateTime lastControl = LocalDateTime.now();
     
     public BalancingController(Robot robot) {
 	setRobot(robot);
     }
     
-    public void control() {
-	LocalDateTime now = LocalDateTime.now();
+    public void control(double dt) {
 	double length = robot.getLength();
 	double angle = robot.getAngle();
 	if (angle == 0) {
@@ -26,10 +21,8 @@ public class BalancingController {
 	    robot.setWheelAngularAcceleration(-10); // TODO maxAngularAcceleration
 	}
 	else {
-	    double dt = Duration.between(lastControl, LocalDateTime.now()).toMillis();
 	    robot.setWheelAngularAcceleration((Physics.G * Math.sin(angle) + (angle / (dt * length))) / Math.cos(angle));
 	}
-	lastControl = now;
     }
 
     public void setRobot(Robot robot) {
