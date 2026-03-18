@@ -3,18 +3,17 @@ package main;
 import simulation.*;
 import rendering.*;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class Main {
 
     public static void main(String[] args) {
 	Robot robot = new Robot(0.1, 0.1);
-	robot.setAngle(Math.PI / 180);
+	robot.setAngle(Math.PI / 4);
 	
 	double dt = 0.001;
 	
-	Simulation simulation = new Simulation(dt);
-	simulation.addObject(robot);
+	Simulation simulation = new Simulation(robot);
 	
 	JFrame frame = new JFrame("Balancing robot");
 	SimulationPanel panel = new SimulationPanel(robot);
@@ -26,7 +25,7 @@ public class Main {
 	frame.setVisible(true);
 	
 	while (true) {
-	    simulation.step();
+	    simulation.step(dt);
 	    panel.repaint();
 	    try {
 		Thread.sleep((int)(dt * 1000));

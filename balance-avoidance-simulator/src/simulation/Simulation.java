@@ -1,40 +1,33 @@
 package simulation;
 
-import java.util.ArrayList;
+import physics.*;
 
 public class Simulation {
 
-    private double t = 0;
-    private double dt = 1;
-    private ArrayList<Robot> objects = new ArrayList<Robot>(); 
+    private final Robot robot;
     
-    public Simulation(double dt) {
-	setDt(dt);
+    public Simulation(Robot robot) {
+	this.robot = robot;
     }
     
-    public void step() {
-	for (Robot o : objects) {
-	    o.simulate(dt);
-	}
-    }
-    
-    public void addObject(Robot object) {
-	objects.add(object);
-    }
-    
-    public void removeObject(Robot object) {
-	objects.remove(object);
-    }
-
-    public double getT() {
-        return t;
-    }
-
-    public double getDt() {
-        return dt;
-    }
-
-    public void setDt(double dt) {
-        this.dt = dt;
+    public void step(double dt) {
+	double wheelAngAcc = BalancingController.controlWheelAngularAcceleration(dt, robot.getLength(), robot.getAngle());
+	robot.getWheel().setAngularAcceleration(wheelAngAcc);
+	
+	double wheelAngVel = Physics.valueChange(robot.getWheel().getAngularVelocity(), robot.getWheel().getAngularAcceleration(), dt);
+	robot.getWheel().setAngularVelocity(wheelAngVel);
+	
+	double wheelLinVel = Physics.calcLinearVelocity(robot.getWheel().getAngularVelocity(), robot.getWheel().getRadius());
+	
+	double robAngAcc = InvertedPendulum.calcAngularAcceleration(robot.getAngle(), robot.getLength(), robot.getWheel().getAngularAcceleration());
+	
+	double robAngVel = Physics.valueChange(robot.getAngularVelocity(), robAngAcc, dt);
+	robot.setAngularVelocity(robAngVel);
+	
+	double robAng = Physics.valueChange(robot.getAngle(), robot.getAngularVelocity(), dt);
+	robot.setAngle(robAng);
+	
+	double robXPosition = Physics.valueChange(robot.getXPosition(), wheelLinVel, dt);
+	robot.setXPosition(robXPosition);
     }
 }

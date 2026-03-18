@@ -25,10 +25,10 @@ public class SimulationPanel extends JPanel {
 	
 	double groundY = height / 2;
 	double scale = 1000;
-	double wheelRadius = robot.getWheelRadius();
+	double wheelRadius = robot.getWheel().getRadius();
 	
-	double wheelX = width / 2;
-	double wheelY = groundY;
+	double wheelX = robot.getXPosition() * scale + (width / 2);
+	double wheelY = groundY - wheelRadius * scale;
 	
 	double topX = wheelX + Math.sin(robot.getAngle()) * robot.getLength() * scale;
 	double topY = wheelY - Math.cos(robot.getAngle()) * robot.getLength() * scale;
@@ -41,5 +41,9 @@ public class SimulationPanel extends JPanel {
 	
 	// Body
 	g2.drawLine((int)wheelX, (int)wheelY, (int)topX, (int)topY);
+	
+	// Text
+	g2.drawString(String.format("Angular velocity of wheel: %.3f", robot.getWheel().getAngularVelocity()), 20, 20);
+	g2.drawString(String.format("Angular acceleration of wheel: %.3f", robot.getWheel().getAngularAcceleration()), 20, 30);
     }
 }
