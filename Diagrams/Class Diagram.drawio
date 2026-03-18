@@ -80,13 +80,16 @@
           <mxGeometry relative="1" x="1" as="geometry" />
         </mxCell>
         <mxCell id="7Odpfrnduv5oKMFX6L92-30" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="BalancingController" vertex="1">
-          <mxGeometry height="60" width="160" x="600" y="66" as="geometry" />
+          <mxGeometry height="86" width="200" x="600" y="53" as="geometry" />
+        </mxCell>
+        <mxCell id="7Odpfrnduv5oKMFX6L92-39" parent="7Odpfrnduv5oKMFX6L92-30" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- lastControl: LocalDateTime" vertex="1">
+          <mxGeometry height="26" width="200" y="26" as="geometry" />
         </mxCell>
         <mxCell id="7Odpfrnduv5oKMFX6L92-34" parent="7Odpfrnduv5oKMFX6L92-30" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="160" y="26" as="geometry" />
+          <mxGeometry height="8" width="200" y="52" as="geometry" />
         </mxCell>
         <mxCell id="7Odpfrnduv5oKMFX6L92-35" parent="7Odpfrnduv5oKMFX6L92-30" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ control()" vertex="1">
-          <mxGeometry height="26" width="160" y="34" as="geometry" />
+          <mxGeometry height="26" width="200" y="60" as="geometry" />
         </mxCell>
         <mxCell id="7Odpfrnduv5oKMFX6L92-36" edge="1" parent="1" source="7Odpfrnduv5oKMFX6L92-30" style="endArrow=open;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endFill=0;" target="7Odpfrnduv5oKMFX6L92-1" value="">
           <mxGeometry relative="1" as="geometry">
