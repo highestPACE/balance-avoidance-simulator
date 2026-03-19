@@ -16,14 +16,13 @@ public class Simulation {
 	if (!(0 <= translatedAngle && translatedAngle <= Math.PI)) {
 	    translatedAngle -= 2 * Math.PI; // Translate angle to be in [-pi, pi] where 0 is the desired position on top
 	}
-	if (Math.abs(translatedAngle) <= (Math.PI / 2)) {
-	    translatedAngle = -translatedAngle;
-	}
-	ControlTerm angleTerm = new ControlTerm("angle", 100, translatedAngle);
-	ControlTerm positionTerm = new ControlTerm("position", 100, getRobotXPosition());
+	ControlTerm angleTerm = new ControlTerm("angle", 100, -translatedAngle);
+	ControlTerm velocityTerm = new ControlTerm("velocity", 1, -getRobotAngularVelocity());
+	ControlTerm positionTerm = new ControlTerm("position", 100, -getRobotXPosition());
 	WeightedController controller = new WeightedController();
 	controller.addTerm(angleTerm);
-	// controller.addTerm(positionTerm);
+	controller.addTerm(velocityTerm);
+	controller.addTerm(positionTerm);
 
 	double wheelAngAcc = controller.computeOutput();
 	robot.getWheel().setAngularAcceleration(wheelAngAcc);
