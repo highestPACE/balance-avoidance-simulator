@@ -11,34 +11,23 @@ public class Simulation {
     }
 
     public void step(double dt) {
-	double wheelAngAcc = BalancingController.controlWheelAngularAcceleration(dt, robot.getLength(),
-		robot.getAngle());
+	double wheelAngAcc = BalancingController.controlWheelAngularAcceleration(getRobotLength(), getRobotAngle(),
+		getRobotAngularVelocity(), dt);
 	robot.getWheel().setAngularAcceleration(wheelAngAcc);
-
-	double wheelAngVel = Physics.valueChange(robot.getWheel().getAngularVelocity(),
-		robot.getWheel().getAngularAcceleration(), dt);
+	double wheelAngVel = Physics.valueChange(getWheelAngularVelocity(), getWheelAngularAcceleration(), dt);
 	robot.getWheel().setAngularVelocity(wheelAngVel);
-
-	double wheelLinVel = Physics.calcLinearVelocity(robot.getWheel().getAngularVelocity(),
-		robot.getWheel().getRadius());
-
-	double robAngAcc = InvertedPendulum.calcAngularAcceleration(robot.getAngle(), robot.getLength(),
-		robot.getWheel().getAngularAcceleration());
-
-	double robAngVel = Physics.valueChange(robot.getAngularVelocity(), robAngAcc, dt);
+	double robAngVel = Physics.valueChange(robot.getAngularVelocity(), getRobotAngularAcceleration(), dt);
 	robot.setAngularVelocity(robAngVel);
-
 	double robAng = Physics.valueChange(robot.getAngle(), robot.getAngularVelocity(), dt);
 	robot.setAngle(robAng);
-
-	double robXPosition = Physics.valueChange(robot.getXPosition(), wheelLinVel, dt);
+	double robXPosition = Physics.valueChange(robot.getXPosition(), getWheelLinearVelocity(), dt);
 	robot.setXPosition(robXPosition);
     }
-    
+
     public double getRobotLength() {
 	return robot.getLength();
     }
-    
+
     public double getWheelRadius() {
 	return robot.getWheel().getRadius();
     }
@@ -63,11 +52,11 @@ public class Simulation {
     public double getWheelLinearVelocity() {
 	return Physics.calcLinearVelocity(robot.getWheel().getAngularVelocity(), robot.getWheel().getRadius());
     }
-    
+
     public double getWheelAngularVelocity() {
 	return robot.getWheel().getAngularVelocity();
     }
-    
+
     public double getWheelAngularAcceleration() {
 	return robot.getWheel().getAngularAcceleration();
     }
