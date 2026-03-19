@@ -13,7 +13,7 @@ public class Simulation {
     public void step(double dt) {
 	PIDController pidController = new PIDController();
 
-	double wheelAngAcc = pidController.control(100, 0, 0, getRobotAngle(), 0, 0);
+	double wheelAngAcc = pidController.control(100, 0, 0, -getRobotAngle(), 0, 0);
 	robot.getWheel().setAngularAcceleration(wheelAngAcc);
 
 	double wheelAngVel = Physics.valueChange(getWheelAngularVelocity(), getWheelAngularAcceleration(), dt);
