@@ -6,38 +6,39 @@ public class Wheel {
     private double angularVelocity = 0;
     private double angularAcceleration = 0;
     private double maxAngularAcceleration = 10;
-    
+
     public Wheel(double radius) {
 	this.radius = radius;
     }
-    
+
     public double getRadius() {
-        return radius;
+	return radius;
     }
-    
+
     public void setAngularVelocity(double angularVelocity) {
 	this.angularVelocity = angularVelocity;
     }
 
     public double getAngularVelocity() {
-        return angularVelocity;
+	return angularVelocity;
     }
-    
+
     public double getAngularAcceleration() {
 	return angularAcceleration;
     }
-    
+
     public void setAngularAcceleration(double angularAcceleration) {
-	// this.angularAcceleration = Math.max(Math.min(getMaxAngularAcceleration(), angularAcceleration), -getMaxAngularAcceleration());
+	// this.angularAcceleration = Math.max(Math.min(getMaxAngularAcceleration(),
+	// angularAcceleration), -getMaxAngularAcceleration());
 	this.angularAcceleration = angularAcceleration;
     }
 
     public double getMaxAngularAcceleration() {
-        return maxAngularAcceleration;
+	return maxAngularAcceleration;
     }
 
     public void setMaxAngularAcceleration(double maxAngularAcceleration) {
-        this.maxAngularAcceleration = maxAngularAcceleration;
+	this.maxAngularAcceleration = maxAngularAcceleration;
     }
-    
+
 }
