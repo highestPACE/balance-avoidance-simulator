@@ -26,7 +26,12 @@ public class Robot {
     }
 
     public void setAngle(double angle) {
-	this.angle = angle % (2 * Math.PI);
+	double tmp = Math.abs(angle % (2 * Math.PI));
+	if (0 <= tmp && tmp <= Math.PI) {
+	    this.angle = tmp;
+	} else {
+	    this.angle = tmp - 2 * Math.PI;
+	}
     }
 
     public double getAngularVelocity() {
