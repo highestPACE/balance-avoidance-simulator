@@ -11,7 +11,7 @@ public class Simulation {
     }
 
     public void step(double dt) {
-	BalancingController controller = new OptimalBalancingController();
+	OptimalBalancingController controller = new OptimalBalancingController();
 
 	double wheelAngAcc = controller.controlWheelAngularAcceleration(getRobotLength(), getRobotAngle(),
 		getRobotAngularVelocity(), dt);
