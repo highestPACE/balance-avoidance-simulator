@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
 	Robot robot = new Robot(0.1, 0.1);
-	robot.setAngle(Math.PI);
+	robot.setAngle(Math.PI / 4);
 
 	double dt = 0.001;
 
@@ -28,7 +28,7 @@ public class Main {
 	    simulation.step(dt);
 	    panel.repaint();
 	    try {
-		Thread.sleep((int) (1000 * dt));
+		Thread.sleep((int) (dt * 1000));
 	    } catch (InterruptedException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
