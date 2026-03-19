@@ -12,11 +12,11 @@ public class Simulation {
     }
 
     public void step(double dt) {
-	double normalizedAngle = Math.abs(getRobotAngle());
-	if (!(0 <= normalizedAngle && normalizedAngle <= Math.PI)) {
-	    normalizedAngle -= 2 * Math.PI;
+	double translatedAngle = getRobotAngle();
+	if (!(0 <= translatedAngle && translatedAngle <= Math.PI)) {
+	    translatedAngle -= 2 * Math.PI; // Translate angle to be in [-pi, pi] where 0 is the desired position on top
 	}
-	ControlTerm angleTerm = new ControlTerm("angle", 100, -normalizedAngle);
+	ControlTerm angleTerm = new ControlTerm("angle", 100, -translatedAngle);
 	ControlTerm positionTerm = new ControlTerm("position", 100, getRobotXPosition());
 	WeightedController controller = new WeightedController();
 	controller.addTerm(angleTerm);
