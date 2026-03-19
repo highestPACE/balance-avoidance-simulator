@@ -11,15 +11,21 @@ public class Simulation {
     }
 
     public void step(double dt) {
-	double wheelAngAcc = BalancingController.controlWheelAngularAcceleration(getRobotLength(), getRobotAngle(),
+	BalancingController controller = new OptimalBalancingController();
+
+	double wheelAngAcc = controller.controlWheelAngularAcceleration(getRobotLength(), getRobotAngle(),
 		getRobotAngularVelocity(), dt);
 	robot.getWheel().setAngularAcceleration(wheelAngAcc);
+
 	double wheelAngVel = Physics.valueChange(getWheelAngularVelocity(), getWheelAngularAcceleration(), dt);
 	robot.getWheel().setAngularVelocity(wheelAngVel);
+
 	double robAngVel = Physics.valueChange(robot.getAngularVelocity(), getRobotAngularAcceleration(), dt);
 	robot.setAngularVelocity(robAngVel);
+
 	double robAng = Physics.valueChange(robot.getAngle(), robot.getAngularVelocity(), dt);
 	robot.setAngle(robAng);
+
 	double robXPosition = Physics.valueChange(robot.getXPosition(), getWheelLinearVelocity(), dt);
 	robot.setXPosition(robXPosition);
     }
