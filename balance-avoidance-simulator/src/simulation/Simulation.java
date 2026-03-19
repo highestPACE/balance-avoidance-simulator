@@ -11,9 +11,9 @@ public class Simulation {
     }
 
     public void step(double dt) {
-	PIDBalancingController controller = new PIDBalancingController();
+	PIDController pidController = new PIDController();
 
-	double wheelAngAcc = controller.control(100, 0, 0, getRobotAngle(), getRobotAngularVelocity());
+	double wheelAngAcc = pidController.control(100, 0, 0, getRobotAngle(), 0, 0);
 	robot.getWheel().setAngularAcceleration(wheelAngAcc);
 
 	double wheelAngVel = Physics.valueChange(getWheelAngularVelocity(), getWheelAngularAcceleration(), dt);
