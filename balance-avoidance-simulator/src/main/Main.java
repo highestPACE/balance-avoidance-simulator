@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
 	Robot robot = new Robot(0.1, 0.1);
-	robot.setAngle(Math.PI / 4);
+	robot.setAngle(10);
 
 	double dt = 0.001;
 
