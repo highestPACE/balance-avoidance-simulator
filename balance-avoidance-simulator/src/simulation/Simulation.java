@@ -12,11 +12,15 @@ public class Simulation {
     }
 
     public void step(double dt) {
-	ControlTerm angleTerm = new ControlTerm("angle", 100, getRobotAngle());
+	double normalizedAngle = Math.abs(getRobotAngle());
+	if (!(0 <= normalizedAngle && normalizedAngle <= Math.PI)) {
+	    normalizedAngle -= 2 * Math.PI;
+	}
+	ControlTerm angleTerm = new ControlTerm("angle", 100, -normalizedAngle);
 	ControlTerm positionTerm = new ControlTerm("position", 100, getRobotXPosition());
 	WeightedController controller = new WeightedController();
 	controller.addTerm(angleTerm);
-	controller.addTerm(positionTerm);
+	// controller.addTerm(positionTerm);
 
 	double wheelAngAcc = controller.computeOutput();
 	robot.getWheel().setAngularAcceleration(wheelAngAcc);
