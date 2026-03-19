@@ -1,6 +1,7 @@
 package simulation;
 
 import physics.*;
+import weightedcontroller.*;
 
 public class Simulation {
 
@@ -11,9 +12,13 @@ public class Simulation {
     }
 
     public void step(double dt) {
-	PIDController pidController = new PIDController();
+	ControlTerm angleTerm = new ControlTerm("angle", 100, getRobotAngle());
+	ControlTerm positionTerm = new ControlTerm("position", 100, getRobotXPosition());
+	WeightedController controller = new WeightedController();
+	controller.addTerm(angleTerm);
+	controller.addTerm(positionTerm);
 
-	double wheelAngAcc = pidController.control(100, 0, 0, -getRobotAngle(), 0, 0);
+	double wheelAngAcc = controller.computeOutput();
 	robot.getWheel().setAngularAcceleration(wheelAngAcc);
 
 	double wheelAngVel = Physics.valueChange(getWheelAngularVelocity(), getWheelAngularAcceleration(), dt);
