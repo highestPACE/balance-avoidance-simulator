@@ -1,7 +1,6 @@
 package simulation;
 
 import physics.*;
-import weightedcontroller.*;
 
 public class Simulation {
 
@@ -12,19 +11,11 @@ public class Simulation {
     }
 
     public void step(double dt) {
-	double translatedAngle = getRobotAngle();
-	if (!(0 <= translatedAngle && translatedAngle <= Math.PI)) {
-	    translatedAngle -= 2 * Math.PI; // Translate angle to be in [-pi, pi] where 0 is the desired position on top
-	}
-	ControlTerm angleTerm = new ControlTerm("angle", 100, translatedAngle);
-	ControlTerm velocityTerm = new ControlTerm("velocity", 1, getRobotAngularVelocity());
-	ControlTerm positionTerm = new ControlTerm("position", 100, getRobotXPosition());
-	WeightedController controller = new WeightedController();
-	controller.addTerm(angleTerm);
-	controller.addTerm(velocityTerm);
-	controller.addTerm(positionTerm);
+	double tMin = 0.1; // controller wants to ensure that goal is not met before tMin seconds went by
+	RobotController controller = new RobotController(tMin);
 
-	double wheelAngAcc = -controller.computeOutput();
+	double wheelAngAcc = controller.controlWheelAngularAcceleration(getWheelRadius(), getRobotLength(),
+		getRobotAngle(), getRobotAngularVelocity());
 	robot.getWheel().setAngularAcceleration(wheelAngAcc);
 
 	double wheelAngVel = Physics.valueChange(getWheelAngularVelocity(), getWheelAngularAcceleration(), dt);
