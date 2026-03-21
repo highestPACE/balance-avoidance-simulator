@@ -21,14 +21,20 @@ public class Robot {
 	return wheel;
     }
 
- // Angle is in [0, 2pi] (0 is pointing to the top)
+ // Angle is in [-pi, pi] (0 is pointing to the top)
     public double getAngle() {
 	return angle;
     }
 
-    // Angle gets translated into [0, 2pi] (0 is pointing to the top)
+    // Angle gets translated into [-pi, pi] (0 is pointing to the top)
     public void setAngle(double angle) {
-	this.angle = ((angle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+	double tmp = ((angle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+	if (tmp <= Math.PI) {
+	    this.angle = tmp;
+	}
+	else {
+	    this.angle = tmp - 2 * Math.PI;
+	}
     }
 
     public double getAngularVelocity() {
