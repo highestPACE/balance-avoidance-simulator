@@ -11,6 +11,10 @@ public class RobotController {
     }
 
     public double controlWheelAngularAcceleration(double radius, double length, double angle, double angularVelocity) {
+	return achieveBalance(radius, length, angle, angularVelocity);
+    }
+
+    private double achieveBalance(double radius, double length, double angle, double angularVelocity) {
 	return (Physics.G * Math.sin(angle) + ((2 * length) / (tMin * tMin)) * (angle + tMin * angularVelocity))
 		/ (Math.cos(angle) * radius);
     }
