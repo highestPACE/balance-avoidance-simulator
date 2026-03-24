@@ -1,5 +1,8 @@
 package simulation;
 
+import physics.InvertedPendulum;
+import physics.Physics;
+
 public class Robot {
 
     private final double length;
@@ -13,26 +16,26 @@ public class Robot {
 	this.wheel = new Wheel(wheelRadius);
     }
 
+    public Robot(double length, double wheelRadius, double angle) {
+	this(length, wheelRadius);
+	setAngle(angle);
+    }
+
     public double getLength() {
 	return length;
     }
 
-    public Wheel getWheel() {
-	return wheel;
-    }
-
- // Angle is in [-pi, pi] (0 is pointing to the top)
+    // Angle is in [-pi, pi] (0 is pointing to the top)
     public double getAngle() {
 	return angle;
     }
 
     // Angle gets translated into [-pi, pi] (0 is pointing to the top)
-    public void setAngle(double angle) {
+    protected void setAngle(double angle) {
 	double tmp = ((angle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
 	if (tmp <= Math.PI) {
 	    this.angle = tmp;
-	}
-	else {
+	} else {
 	    this.angle = tmp - 2 * Math.PI;
 	}
     }
@@ -41,15 +44,43 @@ public class Robot {
 	return angularVelocity;
     }
 
-    public void setAngularVelocity(double angularVelocity) {
+    protected void setAngularVelocity(double angularVelocity) {
 	this.angularVelocity = angularVelocity;
+    }
+
+    public double getAngularAcceleration() {
+	return InvertedPendulum.calcAngularAcceleration(getAngle(), getLength(), getWheelAngularAcceleration());
     }
 
     public double getXPosition() {
 	return xPosition;
     }
 
-    public void setXPosition(double xPosition) {
+    protected void setXPosition(double xPosition) {
 	this.xPosition = xPosition;
+    }
+
+    public double getWheelRadius() {
+	return wheel.getRadius();
+    }
+
+    public double getWheelAngularVelocity() {
+	return wheel.getAngularVelocity();
+    }
+
+    protected void setWheelAngularVelocity(double angularVelocity) {
+	wheel.setAngularVelocity(angularVelocity);
+    }
+
+    public double getWheelAngularAcceleration() {
+	return wheel.getAngularAcceleration();
+    }
+
+    protected void setWheelAngularAcceleration(double angularAcceleration) {
+	wheel.setAngularAcceleration(angularAcceleration);
+    }
+
+    public double getWheelLinearVelocity() {
+	return Physics.calcLinearVelocity(getWheelAngularVelocity(), getWheelRadius());
     }
 }

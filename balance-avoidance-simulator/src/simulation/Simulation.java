@@ -1,5 +1,6 @@
 package simulation;
 
+import controller.*;
 import physics.*;
 
 public class Simulation {
@@ -14,57 +15,24 @@ public class Simulation {
 	double tMin = 0.1; // controller wants to ensure that goal is not met before tMin seconds went by
 	RobotController controller = new RobotController(tMin);
 
-	double wheelAngAcc = controller.controlWheelAngularAcceleration(getWheelRadius(), getRobotLength(),
-		getRobotAngle(), getRobotAngularVelocity());
-	robot.getWheel().setAngularAcceleration(wheelAngAcc);
+	double wheelAngAcc = controller.controlWheelAngularAcceleration(robot.getWheelRadius(), robot.getLength(),
+		robot.getAngle(), robot.getAngularVelocity());
+	robot.setWheelAngularAcceleration(wheelAngAcc);
 
-	double wheelAngVel = Physics.valueChange(getWheelAngularVelocity(), getWheelAngularAcceleration(), dt);
-	robot.getWheel().setAngularVelocity(wheelAngVel);
+	double wheelAngVel = Physics.valueChange(robot.getWheelAngularVelocity(), robot.getWheelAngularAcceleration(), dt);
+	robot.setWheelAngularVelocity(wheelAngVel);
 
-	double robAngVel = Physics.valueChange(robot.getAngularVelocity(), getRobotAngularAcceleration(), dt);
+	double robAngVel = Physics.valueChange(robot.getAngularVelocity(), robot.getAngularAcceleration(), dt);
 	robot.setAngularVelocity(robAngVel);
 
 	double robAng = Physics.valueChange(robot.getAngle(), robot.getAngularVelocity(), dt);
 	robot.setAngle(robAng);
 
-	double robXPosition = Physics.valueChange(robot.getXPosition(), getWheelLinearVelocity(), dt);
+	double robXPosition = Physics.valueChange(robot.getXPosition(), robot.getWheelLinearVelocity(), dt);
 	robot.setXPosition(robXPosition);
     }
-
-    public double getRobotLength() {
-	return robot.getLength();
-    }
-
-    public double getWheelRadius() {
-	return robot.getWheel().getRadius();
-    }
-
-    public double getRobotXPosition() {
-	return robot.getXPosition();
-    }
-
-    public double getRobotAngle() {
-	return robot.getAngle();
-    }
-
-    public double getRobotAngularVelocity() {
-	return robot.getAngularVelocity();
-    }
-
-    public double getRobotAngularAcceleration() {
-	return InvertedPendulum.calcAngularAcceleration(robot.getAngle(), robot.getLength(),
-		robot.getWheel().getAngularAcceleration());
-    }
-
-    public double getWheelLinearVelocity() {
-	return Physics.calcLinearVelocity(robot.getWheel().getAngularVelocity(), robot.getWheel().getRadius());
-    }
-
-    public double getWheelAngularVelocity() {
-	return robot.getWheel().getAngularVelocity();
-    }
-
-    public double getWheelAngularAcceleration() {
-	return robot.getWheel().getAngularAcceleration();
+    
+    public Robot getRobot() {
+	return robot;
     }
 }

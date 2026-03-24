@@ -15,19 +15,19 @@ public class Wheel {
 	return radius;
     }
 
-    public void setAngularVelocity(double angularVelocity) {
-	this.angularVelocity = angularVelocity;
-    }
-
     public double getAngularVelocity() {
 	return angularVelocity;
+    }
+    
+    protected void setAngularVelocity(double angularVelocity) {
+	this.angularVelocity = angularVelocity;
     }
 
     public double getAngularAcceleration() {
 	return angularAcceleration;
     }
 
-    public void setAngularAcceleration(double angularAcceleration) {
+    protected void setAngularAcceleration(double angularAcceleration) {
 	// this.angularAcceleration = Math.max(Math.min(getMaxAngularAcceleration(),
 	// angularAcceleration), -getMaxAngularAcceleration());
 	this.angularAcceleration = angularAcceleration;
