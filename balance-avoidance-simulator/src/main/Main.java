@@ -24,7 +24,11 @@ public class Main {
 	frame.setLocationRelativeTo(null);
 	frame.setVisible(true);
 
-	while (true) {
+	runFor(Double.POSITIVE_INFINITY, dt, simulation, panel);
+    }
+    
+    private static void runFor(double duration, double dt, Simulation simulation, SimulationPanel panel) {
+	for (int t = 0; t < duration / dt; ++t) {
 	    simulation.step(dt);
 	    panel.repaint();
 	    try {
