@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 public class Main {
 
     public static void main(String[] args) {
-	Robot robot = new Robot(0.1, 0.1, Math.PI / 4);
+	Robot robot = new Robot(0.1, 0.1, - Math.PI / 4);
 
 	double dt = 0.001;
 

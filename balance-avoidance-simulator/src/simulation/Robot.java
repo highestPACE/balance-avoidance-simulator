@@ -83,4 +83,12 @@ public class Robot {
     public double getWheelLinearVelocity() {
 	return Physics.calcLinearVelocity(getWheelAngularVelocity(), getWheelRadius());
     }
+
+    public double getWheelMaxAngularAcceleration() {
+	return wheel.getMaxAngularAcceleration();
+    }
+
+    protected void setWheelMaxAngularAcceleration(double maxAngularAcceleration) {
+	wheel.setMaxAngularAcceleration(maxAngularAcceleration);
+    }
 }
