@@ -12,7 +12,7 @@ public class RobotController {
     }
 
     public double controlWheelAngularAcceleration(Robot robot) {
-	return achieveAngle(0, robot);
+	return achievePosition(0.1, robot);
     }
 
     private double achieveAngle(double desiredAngle, Robot robot) {
