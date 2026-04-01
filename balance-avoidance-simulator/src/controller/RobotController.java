@@ -12,10 +12,12 @@ public class RobotController {
     }
 
     public double controlWheelAngularAcceleration(Robot robot) {
-	return achievePosition(1, robot);
+	return achievePosition(10, robot);
     }
 
     private double achieveAngle(double desiredAngle, Robot robot) {
+	double maxAngle = calcMaxAngle(robot);
+	desiredAngle = Math.max(Math.min(desiredAngle, maxAngle), -maxAngle);
 	return (Physics.G * Math.sin(robot.getAngle()) - ((2 * robot.getLength()) / (tMin * tMin))
 		* (desiredAngle - robot.getAngle() - tMin * robot.getAngularVelocity()))
 		/ (Math.cos(robot.getAngle()) * robot.getWheelRadius());
@@ -28,26 +30,47 @@ public class RobotController {
     private double calcMaxAngle(Robot robot) {
 	return calcAngleForAcceleration(robot.getWheelMaxAngularAcceleration() * robot.getWheelRadius());
     }
+    
+    private double calcAccelerationForAngle(double angle) {
+	return Physics.G * Math.tan(angle);
+    }
 
     private double achievePosition(double desiredPosition, Robot robot) {
+	double direction = (int) Math.signum(desiredPosition - robot.getXPosition());
+
+	if ((int) Math.signum(robot.getWheelLinearVelocity()) == direction) {
+	    Double desLinBreak = -(Math.pow(robot.getWheelLinearVelocity(), 2)
+		    / (2 * (desiredPosition - robot.getXPosition())));
+	    if (desLinBreak.equals(Double.NaN)) {
+		desLinBreak = 0.;
+	    }
+
+	    double breakAngle = calcAngleForAcceleration(desLinBreak);
+
+	    double maxBreakAngle = -direction * calcMaxAngle(robot);
+	    if (Math.abs(breakAngle) >= Math.abs(maxBreakAngle)) {
+		return achieveAngle(breakAngle, robot);
+	    }
+
+	    double maxBreak = -direction * robot.getWheelMaxAngularAcceleration() * robot.getWheelRadius();
+	    
+	    double bufferFactor =  0.1458; // Number from testing
+	    maxBreak = calcAccelerationForAngle(maxBreakAngle * bufferFactor);
+
+	    double x2 = robot.getXPosition() + tMin * robot.getWheelLinearVelocity()
+		    + ((tMin * tMin) / 2) * (achieveAngle(maxBreakAngle, robot) * robot.getWheelRadius()) - Math
+			    .pow(robot.getWheelLinearVelocity()
+				    + tMin * (achieveAngle(maxBreakAngle, robot) * robot.getWheelRadius()), 2)
+			    / (2 * maxBreak);
+
+	    if (direction < 0 && x2 < desiredPosition || direction > 0 && x2 > desiredPosition) {
+		return achieveAngle(desLinBreak, robot);
+	    }
+	}
+
 	double desLinAcc = (2 / (tMin * tMin))
 		* (desiredPosition - robot.getXPosition() - tMin * robot.getWheelLinearVelocity());
-	double phi1 = calcAngleForAcceleration(desLinAcc);
-	double xDotDot0 = achieveAngle(phi1, robot) * robot.getWheelRadius();
-	double maxAngle = calcMaxAngle(robot);
-	double maxAcc = robot.getWheelMaxAngularAcceleration() * robot.getWheelRadius();
-	if (robot.getXPosition() < desiredPosition) {
-	    maxAngle = -maxAngle;
-	    maxAcc = -maxAcc;
-	}
-	double x2 = robot.getXPosition() + tMin * robot.getWheelLinearVelocity() + ((tMin * tMin) / 2) * (achieveAngle(maxAngle, robot) * robot.getWheelRadius())
-		- Math.pow(robot.getWheelLinearVelocity() + tMin * (achieveAngle(maxAngle, robot) * robot.getWheelRadius()), 2)
-		/ (2 * maxAcc);
-	if ((robot.getXPosition() < desiredPosition && x2 > desiredPosition)
-		|| (robot.getXPosition() > desiredPosition && x2 < desiredPosition)) {
-	    return achieveAngle(maxAngle, robot);
-	}
-	return achieveAngle(phi1, robot);
+	return achieveAngle(calcAngleForAcceleration(desLinAcc), robot);
     }
 
     public double getTMin() {

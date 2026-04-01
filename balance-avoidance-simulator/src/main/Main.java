@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 public class Main {
 
     public static void main(String[] args) {
-	Robot robot = new Robot(0.1, 0.1, - Math.PI / 4);
+	Robot robot = new Robot(0.1, 0.1, 100, 0);
 
 	double dt = 0.001;
 
@@ -25,7 +25,7 @@ public class Main {
 
 	runFor(Double.POSITIVE_INFINITY, dt, simulation, panel);
     }
-    
+
     private static void runFor(double duration, double dt, Simulation simulation, SimulationPanel panel) {
 	for (int t = 0; t < duration / dt; ++t) {
 	    simulation.step(dt);

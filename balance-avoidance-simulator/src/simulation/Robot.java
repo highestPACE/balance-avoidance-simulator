@@ -16,8 +16,9 @@ public class Robot {
 	this.wheel = new Wheel(wheelRadius);
     }
 
-    public Robot(double length, double wheelRadius, double angle) {
+    public Robot(double length, double wheelRadius, double wheelMaxAngularAcceleration, double angle) {
 	this(length, wheelRadius);
+	setWheelMaxAngularAcceleration(wheelMaxAngularAcceleration);
 	setAngle(angle);
     }
 
