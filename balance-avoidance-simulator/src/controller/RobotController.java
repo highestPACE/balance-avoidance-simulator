@@ -6,14 +6,16 @@ import simulation.Robot;
 
 public class RobotController {
 
+    private final Robot robot;
     private double tMin;
 
-    public RobotController(double tMin) {
+    public RobotController(Robot robot, double tMin) {
+	this.robot = robot;
 	setTMin(tMin);
     }
 
-    public double controlWheelAngularAcceleration(Robot robot) {
-	return achieveAngle(0, robot);
+    public void controlWheelAngularAcceleration() {
+	robot.setWheelAngularAcceleration(achieveAngle(0, robot));
     }
 
     private double achieveAngle(double desiredAngle, Robot robot) {

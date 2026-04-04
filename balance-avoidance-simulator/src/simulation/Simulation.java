@@ -12,12 +12,6 @@ public class Simulation {
     }
 
     public void step(double dt) {
-	double tMin = 0.1; // controller wants to ensure that goal is not met before tMin seconds went by
-	RobotController controller = new RobotController(tMin);
-
-	double wheelAngAcc = controller.controlWheelAngularAcceleration(getRobot());
-	robot.setWheelAngularAcceleration(wheelAngAcc);
-
 	double wheelAngVel = Physics.valueChange(robot.getWheelAngularVelocity(), robot.getWheelAngularAcceleration(),
 		dt);
 	robot.setWheelAngularVelocity(wheelAngVel);

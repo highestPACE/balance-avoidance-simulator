@@ -91,7 +91,7 @@ public class Robot {
 	return wheel.getAngularAcceleration();
     }
 
-    protected void setWheelAngularAcceleration(double angularAcceleration) {
+    public void setWheelAngularAcceleration(double angularAcceleration) {
 	wheel.setAngularAcceleration(angularAcceleration);
     }
 

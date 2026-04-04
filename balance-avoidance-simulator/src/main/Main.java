@@ -1,6 +1,7 @@
 package main;
 
 import simulation.*;
+import controller.*;
 import rendering.*;
 
 import javax.swing.JFrame;
@@ -9,6 +10,8 @@ public class Main {
 
     public static void main(String[] args) {
 	Robot robot = new Robot(0.1, 0.1, Math.PI / 4);
+	double tMin = 0.1; // controller wants to ensure that goal is not met before tMin seconds went by
+	RobotController controller = new RobotController(robot, tMin);
 
 	double dt = 0.001;
 
@@ -23,11 +26,14 @@ public class Main {
 	frame.setLocationRelativeTo(null);
 	frame.setVisible(true);
 
-	runFor(Double.POSITIVE_INFINITY, dt, simulation, panel);
+	runFor(Double.POSITIVE_INFINITY, dt, simulation, controller, panel);
     }
-    
-    private static void runFor(double duration, double dt, Simulation simulation, SimulationPanel panel) {
+
+    private static void runFor(double duration, double dt, Simulation simulation, RobotController controller,
+	    SimulationPanel panel) {
+
 	for (int t = 0; t < duration / dt; ++t) {
+	    controller.controlWheelAngularAcceleration();
 	    simulation.step(dt);
 	    panel.repaint();
 	    try {
