@@ -15,16 +15,16 @@ public class RobotController {
     }
 
     public void controlWheelAngularAcceleration() {
-	robot.setWheelAngularAcceleration(achieveAngle(0, robot));
+	robot.setWheelAngularAcceleration(achieveAngle(0));
     }
 
-    private double achieveAngle(double desiredAngle, Robot robot) {
+    private double achieveAngle(double desiredAngle) {
 	return (Physics.G * Math.sin(robot.getAngle()) - ((2 * robot.getLength()) / (tMin * tMin))
 		* (desiredAngle - robot.getAngle() - tMin * robot.getAngularVelocity()))
 		/ (Math.cos(robot.getAngle()) * robot.getWheelRadius());
     }
 
-    private double linearAcceleration(double desiredPosition, Robot robot) {
+    private double linearAcceleration(double desiredPosition) {
 	return (2 / (tMin * tMin)) * (desiredPosition - robot.getXPosition() - tMin * robot.getWheelLinearVelocity());
     }
 
@@ -32,14 +32,14 @@ public class RobotController {
 	return Math.atan(linearAcceleration / Physics.G);
     }
 
-    private double test(double desiredPosition, double start, double lowerBound, double upperBound, Robot robot,
+    private double test(double desiredPosition, double start, double lowerBound, double upperBound,
 	    int iterationsCount) {
 	Robot robotCopy = robot.copy();
 	Simulation simulation = new Simulation(robotCopy);
 	double dt = 0.001;
 	simulation.step(dt);
 
-	double newLinAcc = linearAcceleration(desiredPosition, robotCopy);
+	double newLinAcc = linearAcceleration(desiredPosition);
 	double newAngle = angleForLinearAcceleration(newLinAcc);
 
 	if (newAngle == start) {
@@ -62,14 +62,14 @@ public class RobotController {
 	if (iterationsCount <= 1) {
 	    return newStart;
 	} else {
-	    return test(desiredPosition, newStart, newLowerBound, newUpperBound, robot, iterationsCount - 1);
+	    return test(desiredPosition, newStart, newLowerBound, newUpperBound, iterationsCount - 1);
 	}
     }
 
-    private double achievePosition(double desiredPosition, Robot robot) {
-	double linearAcceleration = linearAcceleration(desiredPosition, robot);
+    private double achievePosition(double desiredPosition) {
+	double linearAcceleration = linearAcceleration(desiredPosition);
 	double desiredAngle = angleForLinearAcceleration(linearAcceleration);
-	return achieveAngle(desiredAngle, robot);
+	return achieveAngle(desiredAngle);
     }
 
     public double getTMin() {
