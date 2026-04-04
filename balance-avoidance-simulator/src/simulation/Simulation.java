@@ -1,6 +1,5 @@
 package simulation;
 
-import controller.*;
 import physics.*;
 
 public class Simulation {
