@@ -1,6 +1,7 @@
 package controller;
 
 import physics.Physics;
+import simulation.Simulation;
 import simulation.Robot;
 
 public class RobotController {
@@ -21,10 +22,51 @@ public class RobotController {
 		/ (Math.cos(robot.getAngle()) * robot.getWheelRadius());
     }
 
+    private double linearAcceleration(double desiredPosition, Robot robot) {
+	return (2 / (tMin * tMin)) * (desiredPosition - robot.getXPosition() - tMin * robot.getWheelLinearVelocity());
+    }
+
+    private double angleForLinearAcceleration(double linearAcceleration) {
+	return Math.atan(linearAcceleration / Physics.G);
+    }
+
+    private double test(double desiredPosition, double start, double lowerBound, double upperBound, Robot robot,
+	    int iterationsCount) {
+	Robot robotCopy = robot.copy();
+	Simulation simulation = new Simulation(robotCopy);
+	double dt = 0.001;
+	simulation.step(dt);
+
+	double newLinAcc = linearAcceleration(desiredPosition, robotCopy);
+	double newAngle = angleForLinearAcceleration(newLinAcc);
+
+	if (newAngle == start) {
+	    return start;
+	}
+
+	double newStart;
+	double newLowerBound;
+	double newUpperBound;
+	if (newAngle < start) {
+	    newStart = (start + lowerBound) / 2;
+	    newLowerBound = lowerBound;
+	    newUpperBound = start;
+	} else {
+	    newStart = (start + upperBound) / 2;
+	    newLowerBound = start;
+	    newUpperBound = upperBound;
+	}
+
+	if (iterationsCount <= 1) {
+	    return newStart;
+	} else {
+	    return test(desiredPosition, newStart, newLowerBound, newUpperBound, robot, iterationsCount - 1);
+	}
+    }
+
     private double achievePosition(double desiredPosition, Robot robot) {
-	double linearAcceleration = (2 / (tMin * tMin))
-		* (desiredPosition - robot.getXPosition() - tMin * robot.getWheelLinearVelocity());
-	double desiredAngle = Math.atan(linearAcceleration / Physics.G);
+	double linearAcceleration = linearAcceleration(desiredPosition, robot);
+	double desiredAngle = angleForLinearAcceleration(linearAcceleration);
 	return achieveAngle(desiredAngle, robot);
     }
 
