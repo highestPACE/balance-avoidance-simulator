@@ -15,16 +15,23 @@ public class RobotController {
     }
 
     public void controlWheelAngularAcceleration() {
-	robot.setWheelAngularAcceleration(achieveAngle(0));
+	robot.setWheelAngularAcceleration(achievePosition(0, robot));
     }
 
-    private double achieveAngle(double desiredAngle) {
+    private double achieveAngle(double desiredAngle, Robot robot) {
 	return (Physics.G * Math.sin(robot.getAngle()) - ((2 * robot.getLength()) / (tMin * tMin))
 		* (desiredAngle - robot.getAngle() - tMin * robot.getAngularVelocity()))
 		/ (Math.cos(robot.getAngle()) * robot.getWheelRadius());
     }
 
-    private double linearAcceleration(double desiredPosition) {
+    private double achievePosition(double desiredPosition, Robot robot) {
+	double linAcc = linearAcceleration(desiredPosition, robot);
+	double desAngle = angleForLinearAcceleration(linAcc);
+	desAngle = test(desiredPosition, desAngle, -Math.PI / 2, Math.PI / 2, 1, robot);
+	return achieveAngle(desAngle, robot);
+    }
+
+    private double linearAcceleration(double desiredPosition, Robot robot) {
 	return (2 / (tMin * tMin)) * (desiredPosition - robot.getXPosition() - tMin * robot.getWheelLinearVelocity());
     }
 
@@ -32,14 +39,20 @@ public class RobotController {
 	return Math.atan(linearAcceleration / Physics.G);
     }
 
-    private double test(double desiredPosition, double start, double lowerBound, double upperBound,
-	    int iterationsCount) {
+    private double test(double desiredPosition, double start, double lowerBound, double upperBound, int iterationsCount,
+	    Robot robot) {
+	if (iterationsCount < 1) {
+	    return start;
+	}
+
 	Robot robotCopy = robot.copy();
+	robotCopy.setWheelAngularAcceleration(achieveAngle(start, robot));
+
 	Simulation simulation = new Simulation(robotCopy);
 	double dt = 0.001;
 	simulation.step(dt);
 
-	double newLinAcc = linearAcceleration(desiredPosition);
+	double newLinAcc = linearAcceleration(desiredPosition, robotCopy);
 	double newAngle = angleForLinearAcceleration(newLinAcc);
 
 	if (newAngle == start) {
@@ -59,17 +72,11 @@ public class RobotController {
 	    newUpperBound = upperBound;
 	}
 
-	if (iterationsCount <= 1) {
+	if (iterationsCount == 1) {
 	    return newStart;
 	} else {
-	    return test(desiredPosition, newStart, newLowerBound, newUpperBound, iterationsCount - 1);
+	    return test(desiredPosition, newStart, newLowerBound, newUpperBound, iterationsCount - 1, robot);
 	}
-    }
-
-    private double achievePosition(double desiredPosition) {
-	double linearAcceleration = linearAcceleration(desiredPosition);
-	double desiredAngle = angleForLinearAcceleration(linearAcceleration);
-	return achieveAngle(desiredAngle);
     }
 
     public double getTMin() {
