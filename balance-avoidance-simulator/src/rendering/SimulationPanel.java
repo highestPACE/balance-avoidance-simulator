@@ -29,7 +29,7 @@ public class SimulationPanel extends JPanel {
 	double scale = 1000;
 	double wheelRadius = robot.getWheelRadius();
 
-	double wheelX = (robot.getXPosition() - 10) * scale + (width / 2);
+	double wheelX = (robot.getXPosition()) * scale + (width / 2);
 	double wheelY = groundY - wheelRadius * scale;
 
 	double topX = wheelX + Math.sin(robot.getAngle()) * robot.getLength() * scale;

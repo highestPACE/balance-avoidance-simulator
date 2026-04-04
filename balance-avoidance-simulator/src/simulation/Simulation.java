@@ -5,13 +5,14 @@ import physics.*;
 
 public class Simulation {
 
+    private double t = 0;
     private final Robot robot;
 
     public Simulation(Robot robot) {
 	this.robot = robot;
     }
 
-    public void step(double dt) {
+    public void step(double dt) {	
 	double tMin = 0.1; // controller wants to ensure that goal is not met before tMin seconds went by
 	RobotController controller = new RobotController(tMin);
 
@@ -30,6 +31,12 @@ public class Simulation {
 
 	double robXPosition = Physics.valueChange(robot.getXPosition(), robot.getWheelLinearVelocity(), dt);
 	robot.setXPosition(robXPosition);
+	
+	t += dt;
+    }
+    
+    public double getT() {
+	return t;
     }
 
     public Robot getRobot() {

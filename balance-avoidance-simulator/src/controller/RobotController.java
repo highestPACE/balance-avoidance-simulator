@@ -12,7 +12,14 @@ public class RobotController {
     }
 
     public double controlWheelAngularAcceleration(Robot robot) {
-	return achievePosition(10, robot);
+	return achievePosition(1, robot);
+    }
+
+    private double test(Robot robot) {
+	double maxBreakAngle = calcMaxAngle(robot);
+	System.out.println("LinVel: " + robot.getWheelLinearVelocity());
+	// robot = new Robot(0.1, 0.1, Double.POSITIVE_INFINITY, 0);
+	return achieveAngle(maxBreakAngle, robot);
     }
 
     private double achieveAngle(double desiredAngle, Robot robot) {
@@ -30,7 +37,7 @@ public class RobotController {
     private double calcMaxAngle(Robot robot) {
 	return calcAngleForAcceleration(robot.getWheelMaxAngularAcceleration() * robot.getWheelRadius());
     }
-    
+
     private double calcAccelerationForAngle(double angle) {
 	return Physics.G * Math.tan(angle);
     }
@@ -48,14 +55,12 @@ public class RobotController {
 	    double breakAngle = calcAngleForAcceleration(desLinBreak);
 
 	    double maxBreakAngle = -direction * calcMaxAngle(robot);
-	    if (Math.abs(breakAngle) >= Math.abs(maxBreakAngle)) {
-		return achieveAngle(breakAngle, robot);
-	    }
 
 	    double maxBreak = -direction * robot.getWheelMaxAngularAcceleration() * robot.getWheelRadius();
-	    
-	    double bufferFactor =  0.1458; // Number from testing
-	    maxBreak = calcAccelerationForAngle(maxBreakAngle * bufferFactor);
+
+	    double bufferFactor = 7;
+	    breakAngle *= bufferFactor;
+	    maxBreak = calcAccelerationForAngle(maxBreakAngle / bufferFactor);
 
 	    double x2 = robot.getXPosition() + tMin * robot.getWheelLinearVelocity()
 		    + ((tMin * tMin) / 2) * (achieveAngle(maxBreakAngle, robot) * robot.getWheelRadius()) - Math
@@ -63,13 +68,26 @@ public class RobotController {
 				    + tMin * (achieveAngle(maxBreakAngle, robot) * robot.getWheelRadius()), 2)
 			    / (2 * maxBreak);
 
+	    // System.out.println(x2);
+
 	    if (direction < 0 && x2 < desiredPosition || direction > 0 && x2 > desiredPosition) {
-		return achieveAngle(desLinBreak, robot);
+		/*
+		 * System.out.println( "Breaking: Pos: " + robot.getXPosition() + ", LinVel: " +
+		 * robot.getWheelLinearVelocity() + ", Angle: " + robot.getAngle() + ", Acc: " +
+		 * achieveAngle(breakAngle, robot));
+		 */
+		return achieveAngle(breakAngle, robot);
 	    }
 	}
 
 	double desLinAcc = (2 / (tMin * tMin))
 		* (desiredPosition - robot.getXPosition() - tMin * robot.getWheelLinearVelocity());
+	/*
+	 * System.out.println("Accelerating: Pos: " + robot.getXPosition() +
+	 * ", LinVel: " + robot.getWheelLinearVelocity() + ", Angle: " +
+	 * robot.getAngle() + ", Acc: " +
+	 * achieveAngle(calcAngleForAcceleration(desLinAcc), robot));
+	 */
 	return achieveAngle(calcAngleForAcceleration(desLinAcc), robot);
     }
 
