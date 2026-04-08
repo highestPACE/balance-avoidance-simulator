@@ -13,12 +13,27 @@ public class Robot {
 
     public Robot(double length, double wheelRadius) {
 	this.length = length;
-	this.wheel = new Wheel(wheelRadius);
+	wheel = new Wheel(wheelRadius);
     }
 
     public Robot(double length, double wheelRadius, double angle) {
 	this(length, wheelRadius);
 	setAngle(angle);
+    }
+
+    public Robot(double length, double wheelRadius, double wheelAngularVelocity, double wheelAngularAcceleration,
+	    double wheelMaxAngularAcceleration, double angle, double angularVelocity, double xPosition) {
+	this(length, wheelRadius, angle);
+	wheel.setAngularVelocity(wheelAngularVelocity);
+	wheel.setAngularAcceleration(wheelAngularAcceleration);
+	wheel.setMaxAngularAcceleration(wheelMaxAngularAcceleration);
+	setAngularVelocity(angularVelocity);
+	setXPosition(xPosition);
+    }
+
+    public Robot copy() {
+	return new Robot(getLength(), getWheelRadius(), getWheelAngularVelocity(), getWheelAngularAcceleration(),
+		getWheelMaxAngularAcceleration(), getAngle(), getAngularVelocity(), getXPosition());
     }
 
     public double getLength() {
@@ -82,5 +97,13 @@ public class Robot {
 
     public double getWheelLinearVelocity() {
 	return Physics.calcLinearVelocity(getWheelAngularVelocity(), getWheelRadius());
+    }
+
+    public double getWheelMaxAngularAcceleration() {
+	return wheel.getMaxAngularAcceleration();
+    }
+
+    public void setWheelMaxAngularAcceleration(double maxAngularAcceleration) {
+	wheel.setMaxAngularAcceleration(maxAngularAcceleration);
     }
 }
