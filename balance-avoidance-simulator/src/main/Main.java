@@ -4,12 +4,15 @@ import simulation.*;
 import controller.*;
 import rendering.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import javax.swing.JFrame;
 
 public class Main {
 
     public static void main(String[] args) {
-	Robot robot = new Robot(0.1, 0.1, Math.PI / 4);
+	Robot robot = new Robot(0.1, 0.1, 10, 0);
 	double tMin = 0.1; // controller wants to ensure that goal is not met before tMin seconds went by
 	RobotController controller = new RobotController(robot, tMin);
 
@@ -29,13 +32,19 @@ public class Main {
 	runFor(Double.POSITIVE_INFINITY, dt, simulation, controller, panel);
     }
 
-    private static void runFor(double duration, double dt, Simulation simulation, RobotController controller,
+    public static void runFor(double duration, double dt, Simulation simulation, RobotController controller,
 	    SimulationPanel panel) {
+
+	LocalDateTime startTime = LocalDateTime.now();
 
 	for (int t = 0; t < duration / dt; ++t) {
 	    controller.controlWheelAngularAcceleration();
 	    simulation.step(dt);
 	    panel.repaint();
+
+	    long waitTime = (long) (dt * 1000000000) - Duration.between(startTime, LocalDateTime.now()).toNanos();
+	    waitTime /= 1000;
+	    // System.out.println(waitTime);
 	    try {
 		Thread.sleep((int) (dt * 1000));
 	    } catch (InterruptedException e) {

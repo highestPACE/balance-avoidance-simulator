@@ -21,6 +21,11 @@ public class Robot {
 	setAngle(angle);
     }
 
+    public Robot(double length, double wheelRadius, double wheelMaxAngularAcceleration, double angle) {
+	this(length, wheelRadius, angle);
+	setWheelMaxAngularAcceleration(wheelMaxAngularAcceleration);
+    }
+
     public Robot(double length, double wheelRadius, double wheelAngularVelocity, double wheelAngularAcceleration,
 	    double wheelMaxAngularAcceleration, double angle, double angularVelocity, double xPosition) {
 	this(length, wheelRadius, angle);
